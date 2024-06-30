@@ -1,6 +1,6 @@
+ï»¿using Newtonsoft.Json;
+using System.Text;
 using Terraria.ID;
-using Newtonsoft.Json;
-using Terraria;
 using TShockAPI;
 
 namespace Bagger
@@ -8,61 +8,252 @@ namespace Bagger
 
     public class Config
     {
-        public static string ConfigPath = Path.Combine(TShock.SavePath, "BaggerConfig.json");
+        public static string ConfigPath = Path.Combine(TShock.SavePath, "Bagger.json");
+        [JsonProperty("ä½¿ç”¨è¯´æ˜", Order = -1)]
+        public string Text = " æŒ‡ä»¤ï¼š/ç¤¼åŒ… || æ²¡æ‰“è¿‡BOSSæ‰èƒ½é¢†ç¤¼åŒ… || é¢†å–æƒé™ï¼ˆbagger.getbagsï¼‰|| é‡ç½®æƒé™ï¼ˆbagger.adminï¼‰||";
 
-        [JsonProperty("Ê·À³Ä·Íõ")]
-        public DropInfo KingSlimeDrop = new DropInfo(ItemID.KingSlimeBossBag, 1);
-        [JsonProperty("¿ËÑÛ")]
-        public DropInfo EyeOFCthulhuDrop = new DropInfo(ItemID.EyeOfCthulhuBossBag, 1);
-        [JsonProperty("ÊÀÍÌ")]
-        public DropInfo EaterOfWorldsDrop = new DropInfo(ItemID.EaterOfWorldsBossBag, 1);
-        [JsonProperty("¿ËÄÔ")]
-        public DropInfo BrainOfCthulhuDrop = new DropInfo(ItemID.BrainOfCthulhuBossBag, 1);
-        [JsonProperty("·äÍõ")]
-        public DropInfo QueenBeeDrop = new DropInfo(ItemID.QueenBeeBossBag, 1);
-        [JsonProperty("÷¼÷ÃÍõ")]
-        public DropInfo SkeletronDrop = new DropInfo(ItemID.SkeletronBossBag, 1);
-        [JsonProperty("Â¹½Ç¹Ö")]
-        public DropInfo Deerclops = new DropInfo(ItemID.DeerclopsBossBag, 1);
-        [JsonProperty("ÑªÈâÇ½")]
-        public DropInfo WallOfFleshDrop = new DropInfo(ItemID.WallOfFleshBossBag, 1);
-        [JsonProperty("Ê·À³Ä·Å®»Ê")]
-        public DropInfo QueenSlimeDrop = new DropInfo(ItemID.QueenSlimeBossBag, 1);
-        [JsonProperty("»ÙÃğÕß")]
-        public DropInfo TheDestroyerDrop = new DropInfo(ItemID.DestroyerBossBag, 1);
-        [JsonProperty("Ë«×ÓÑÛ")]
-        public DropInfo TheTwinsDrop = new DropInfo(ItemID.TwinsBossBag, 1);
-        [JsonProperty("»úĞµ÷¼÷ÃÍõ")]
-        public DropInfo SkeletronPrimeDrop = new DropInfo(ItemID.SkeletronPrimeBossBag, 1);
-        [JsonProperty("ÊÀ¼ÍÖ®»¨")]
-        public DropInfo PlanteraDrop = new DropInfo(ItemID.PlanteraBossBag, 1);
-        [JsonProperty("Ê¯¾ŞÈË")]
-        public DropInfo GolemDrop = new DropInfo(ItemID.GolemBossBag, 1);
-        [JsonProperty("Öíöè")]
-        public DropInfo DukeFishronDrop = new DropInfo(ItemID.FishronBossBag, 1);
-        [JsonProperty("¹âÅ®")]
-        public DropInfo EmpressOfLight = new DropInfo(ItemID.FairyQueenBossBag, 1);
-        [JsonProperty("°İÔÂ½ÌÍ½")]
-        public DropInfo LunaticCultistDrop = new DropInfo(ItemID.CultistBossBag, -1);
-        [JsonProperty("ÔÂÇòÁìÖ÷")]
-        public DropInfo MoonlordDrop = new DropInfo(ItemID.MoonLordBossBag, 1);
+        [JsonProperty("å²è±å§†ç‹", Order = 0)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> KingSlimeDrop { get; set; } = new List<ItemData>();
 
-        public static Config Reload()
+        [JsonProperty("å…‹çœ¼", Order = 1)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> EyeOFCthulhuDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("ä¸–å", Order = 2)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> EaterOfWorldsDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("å…‹è„‘", Order = 3)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> BrainOfCthulhuDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("èœ‚ç‹", Order = 4)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> QueenBeeDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("éª·é«…ç‹", Order = 5)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> SkeletronDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("é¹¿è§’æ€ª", Order = 6)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> Deerclops { get; set; } = new List<ItemData>();
+
+        [JsonProperty("è¡€è‚‰å¢™", Order = 7)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> WallOfFleshDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("å²è±å§†å¥³çš‡", Order = 8)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> QueenSlimeDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("æ¯ç­è€…", Order = 9)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> TheDestroyerDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("åŒå­çœ¼", Order = 10)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> TheTwinsDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("æœºæ¢°éª·é«…ç‹", Order = 11)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> SkeletronPrimeDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("ä¸–çºªä¹‹èŠ±", Order = 12)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> PlanteraDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("çŸ³å·¨äºº", Order = 13)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> GolemDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("çŒªé²¨", Order = 14)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> DukeFishronDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("å…‰å¥³", Order = 15)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> EmpressOfLight { get; set; } = new List<ItemData>();
+
+        [JsonProperty("æ‹œæœˆæ•™å¾’", Order = 16)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> LunaticCultistDrop { get; set; } = new List<ItemData>();
+
+        [JsonProperty("æœˆçƒé¢†ä¸»", Order = 17)]
+        [JsonConverter(typeof(ItemListConverter))]
+        public List<ItemData> MoonlordDrop { get; set; } = new List<ItemData>();
+
+
+        #region è¯»å–ä¸åˆ›å»ºé…ç½®æ–‡ä»¶æ–¹æ³•
+        //åˆ›å»º å†™å…¥ä½  ğŸ‘† ä¸Šé¢çš„å‚æ•°
+        public void Write(string path)
         {
-            Config? c = null;
-
-            if (File.Exists(ConfigPath))
+            using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Write))
+            using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
             {
-                c = JsonConvert.DeserializeObject<Config>(File.ReadAllText(ConfigPath));
+                var str = JsonConvert.SerializeObject(this, Formatting.Indented);
+                sw.Write(str);
             }
-
-            if (c == null)
-            {
-                c = new Config();
-                File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(c, Formatting.Indented));
-            }
-
-            return c;
         }
+
+        // ä»æ–‡ä»¶è¯»å–é…ç½®
+        public static Config Read(string path)
+        {
+            if (!File.Exists(path))
+            {
+                var c = new Config();
+                c.Init();
+                c.Write(path);
+                return c;
+            }
+            else
+            {
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var sr = new StreamReader(fs))
+                {
+                    var json = sr.ReadToEnd();
+                    var cf = JsonConvert.DeserializeObject<Config>(json);
+                    return cf!;
+                }
+            }
+        }
+        #endregion
+
+
+        #region é¢„è®¾ç‰©å“
+        public void Init()
+        {
+            KingSlimeDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.KingSlimeBossBag, 1),
+                new ItemData(74, 1)
+            };
+
+            EyeOFCthulhuDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.EyeOfCthulhuBossBag, 1)
+            };
+
+            EaterOfWorldsDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.EaterOfWorldsBossBag, 1)
+            };
+
+            BrainOfCthulhuDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.BrainOfCthulhuBossBag, 1)
+            };
+
+            QueenBeeDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.QueenBeeBossBag, 1)
+            };
+
+            SkeletronDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.SkeletronBossBag, 1)
+            };
+
+            Deerclops = new List<ItemData>
+            {
+                new ItemData(ItemID.DeerclopsBossBag, 1)
+            };
+
+            WallOfFleshDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.WallOfFleshBossBag, 1),
+                new ItemData(122, 1)
+            };
+
+            QueenSlimeDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.QueenSlimeBossBag, 1),
+                new ItemData(499, 50)
+            };
+
+            TheDestroyerDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.DestroyerBossBag, 1),
+                new ItemData(548, 30)
+            };
+
+            TheTwinsDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.TwinsBossBag, 1),
+                new ItemData(549, 30)
+            };
+
+            SkeletronPrimeDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.SkeletronPrimeBossBag, 1),
+                new ItemData(547, 30)
+            };
+
+            PlanteraDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.PlanteraBossBag, 1)
+            };
+
+            GolemDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.GolemBossBag, 1),
+                new ItemData(1292, 1)
+            };
+
+            DukeFishronDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.FishronBossBag, 1)
+            };
+
+            EmpressOfLight = new List<ItemData>
+            {
+                new ItemData(ItemID.FairyQueenBossBag, 1)
+            };
+
+            LunaticCultistDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.CultistBossBag, 1),
+                new ItemData(3549, 1)
+            };
+
+            MoonlordDrop = new List<ItemData>
+            {
+                new ItemData(ItemID.MoonLordBossBag, 1)
+            };
+
+        }
+        #endregion
+
+        #region ç‰©å“æ•°æ®
+        public class ItemListConverter : JsonConverter<List<ItemData>>
+        {
+            public override void WriteJson(JsonWriter writer, List<ItemData> value, JsonSerializer serializer)
+            {
+                var itemDict = value.ToDictionary(item => item.ID, item => item.Stack);
+                serializer.Serialize(writer, itemDict);
+            }
+
+            public override List<ItemData> ReadJson(JsonReader reader, Type objectType, List<ItemData> existingValue, bool hasExistingValue, JsonSerializer serializer)
+            {
+                var itemDict = serializer.Deserialize<Dictionary<int, int>>(reader);
+                return itemDict?.Select(kv => new ItemData(kv.Key, kv.Value)).ToList() ?? new List<ItemData>();
+            }
+        }
+
+        public class ItemData
+        {
+            [JsonProperty("ç‰©å“ID")]
+            public int ID { get; set; }
+            [JsonProperty("ç‰©å“æ•°é‡")]
+            public int Stack { get; set; }
+
+            public ItemData(int id, int stack)
+            {
+                ID = id;
+                Stack = stack;
+            }
+        }
+        #endregion
     }
 }
