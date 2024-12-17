@@ -1,58 +1,47 @@
 ﻿using MySql.Data.MySqlClient;
-using System.Data;
 using TShockAPI;
 using TShockAPI.DB;
 
-namespace Bagger
+namespace Bagger;
+
+public class DatabaseManager
 {
-    public class DatabaseManager
+    public DatabaseManager()
     {
+        var sqlCreator = new SqlTableCreator(TShock.DB, new SqliteQueryCreator());
+        sqlCreator.EnsureTableStructure(new SqlTable("Bagger",
+            new SqlColumn("Name", MySqlDbType.String) { Primary = true, Unique = true },
+            new SqlColumn("ClaimedBossesMask", MySqlDbType.Int32)));
+    }
 
-        private IDbConnection _db;
+    public int GetClaimedBossMask(string name)
+    {
+        using var reader = TShock.DB.QueryReader("SELECT * FROM Bagger WHERE Name = @0", name);
 
-        public DatabaseManager(IDbConnection db)
+        while (reader.Read())
         {
-            _db = db;
-
-            var sqlCreator = new SqlTableCreator(db, new SqliteQueryCreator());
-
-            sqlCreator.EnsureTableStructure(new SqlTable("Players",
-                new SqlColumn("Name", MySqlDbType.String) { Primary = true, Unique = true },
-                new SqlColumn("ClaimedBossesMask", MySqlDbType.Int32)));
+            return reader.Get<int>("ClaimedBossesMask");
         }
+        throw new NullReferenceException();
+    }
 
-        /// <exception cref="NullReferenceException"></exception>
-        public int GetClaimedBossMask(string name)
-        {
-            using var reader = _db.QueryReader("SELECT * FROM Players WHERE Name = @0", name);
+    public bool InsertPlayer(string name, int mask = 0)
+    {
+        return TShock.DB.Query("INSERT INTO Bagger (Name, ClaimedBossesMask) VALUES (@0, @1)", name, mask) != 0;
+    }
 
-            while (reader.Read())
-            {
-                return reader.Get<int>("ClaimedBossesMask");
-            }
-            throw new NullReferenceException();
-        }
+    public bool SavePlayer(string name, int mask)
+    {
+        return TShock.DB.Query("UPDATE Bagger SET ClaimedBossesMask = @0 WHERE Name = @1", mask, name) != 0;
+    }
 
-        public bool InsertPlayer(string name, int mask = 0)
-        {
-            return _db.Query("INSERT INTO Players (Name, ClaimedBossesMask) VALUES (@0, @1)", name, mask) != 0;
-        }
+    public bool IsPlayerInDb(string name)
+    {
+        return TShock.DB.QueryScalar<int>("SELECT COUNT(*) FROM Bagger WHERE Name = @0", name) > 0;
+    }
 
-        public bool SavePlayer(string name, int mask)
-        {
-            return _db.Query("UPDATE Players SET ClaimedBossesMask = @0 WHERE Name = @1", mask, name) != 0;
-        }
-
-        public bool IsPlayerInDb(string name)
-        {
-            return _db.QueryScalar<int>("SELECT COUNT(*) FROM Players WHERE Name = @0", name) > 0;
-        }
-
-        // 清空玩家数据表中的所有记录（羽学加）
-        public bool ClearData()
-        {
-            // 删除Players表中的所有记录
-            return _db.Query("DELETE FROM Players") != 0;
-        }
+    public bool ClearData()
+    {
+        return TShock.DB.Query("DELETE FROM Bagger") != 0;
     }
 }
